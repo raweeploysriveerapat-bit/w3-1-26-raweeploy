@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Document</title>
+<style>
     * {
         box-sizing: border-box;
     }
@@ -159,9 +159,8 @@
     }
 </style>
 </head>
-
 <body>
-    
+
 <nav class="navbar">
     <ul>
         <li><a href="index.php">ประวัติ</a></li>
@@ -170,51 +169,51 @@
     </ul>
 </nav>
 
-    <?php
-        include "action/connect.php";
-        //       ดึง   ทั้งหมด จาก ตาราง orders
-        $sql = "SELECT * FROM orders";
-        //                      db.  คำสั่ง
-        $result = mysqli_query($con, $sql);
-        // ทดสอบตัวแปร
-        // var_dump($result);
-    ?>
+<?php
+include "action/connect.php";
+$sql = "SELECT * FROM orders";
+$result = mysqli_query($con, $sql);
+?>
+<a href="add_order.php">เพิ่ม</a>
 
-    <table border=1>
-        <thead>
-            <th>รหัสรายการ</th>
-            <th>ชื่อผู้เข้าพัก</th>
-            <th>ชำระเงิน</th>
-            <th>ประเภท</th>
-            <th>ห้อง</th>
-            <th>ภาพ</th>
-        </thead>
+<table border=1>
+<thead>
+<th>รหัสรายการ</th>
+<th>ชื่อผู้เข้าพัก</th>
+<th>ชำระเงิน</th>
+<th>ประเภท</th>
+<th>ห้อง</th>
+<th>ภาพ</th>
+<th>จัดการ</th>
+</thead>
 
-        <?php
-            foreach($result as $order){
-                ?>
-                <tr>
-                    <td><?= $order["orders_id"] ?></td>
-                    <td><?= $order["name"] ?></td>
-                    <td><?= $order["payment"] ?></td>
-                    <td><?= $order["usage_type"] ?></td>
-                    <td><?= $order["room_id"] ?></td>
-                    <td>
-                        <img 
-                            src="<?= $order["image"] ?>"
-                            style="width:200px"
-                        >
-                    </td>
-                </tr>
-                <?php
-            }
-        ?>
-    </table>
-    <form action="room.php" method="post">
-        <input type="submit" value="room">
+<?php
+foreach($result as $order){
+?>
+<tr>
+<td><?= $order["order_id"] ?></td>
+<td><?= $order["name"] ?></td>
+<td><?= $order["payment"] ?></td>
+<td><?= $order["usage_type"] ?></td>
+<td><?= $order["room_id"] ?></td>
+<td>
+<img
+src="<?= $order["image"] ?>"
+style="width:200px" />
+</td>
+<td>
+    <!-- แก้ไข -->
+    <a href="edit_order.php?id=<?= $order["orders_id"] ?>">แก้ไข</a>
+    <!-- ลบ -->
+    <a href="action/delete_order.php?id=<?= $order["orders_id"] ?>">ลบ</a>
+</td>
+</tr>
+<?php
+}
+?>
+</table>
 
-
-        <footer style="
+<footer style="
     margin-top:30px;
     padding:20px;
     background:#0b6fc2;
@@ -222,8 +221,9 @@
     text-align:center;
     font-size:16px;
 ">
-   raweeploy sriveerapat BIT.2/3 NO.25
+    warinthorn monta BIT.2/3 NO.46
 </footer>
+
 
 </body>
 </html>

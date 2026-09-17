@@ -6,67 +6,75 @@
     <title>Document</title>
 </head>
 <body>
+    
+<?php
+// Report all PHP errors
+error_reporting(E_ALL);
 
-   <?php
-       $id = $_GET["id"];
+// Force errors to be displayed on the screen
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
 
-      include "action/connect.php";
+$id = $_GET["id"];
 
-       $sql = "SELECT * FROM orders WHERE orders_id ='$id' ";
+include "action/connect.php";
 
-       $result = mysqli_query($con, $sql);
+$sql = "SELECT * FROM orders WHERE orders_id = '$id' ";
 
-       $order = mysqli_fetch_assoc($result);
+$result = mysqli_query($con,$sql);
 
-       //var_dump($order);
-   ?>
+$order = mysqli_fetch_assoc($result);
 
+
+?>
 
     <form action="action/update_order.php" method="post">
+
+
         <label for="">ชื่อผู้เข้าพัก</label>
-        <input type="text" name="name" value="<?= $order["name"]?>">  <br>
+        <input type="text" name="name" value="<?= $order["name"] ?>"> <br>
 
-        <label for="">การใช้เงิน</label>
-        <input type="text" name="payment"  value="<?= $order["payment"]?>"> <br>
-
-        <label for="">ประเภคการใช้งาน</label>
-        <input type="text" name="usage_type"  value="<?= $order["usage_type"]?>"> <br>
-
-        <label for="ชื่อผู้เข้าพัก">ภาพผู้เข้าพัก</label>
-        <input type="text" name="image"  value="<?= $order["image"]?>"> <br>
+        <label for="">การจ่ายเงิน</label>
+        <input type="text" name="payment" value="<?= $order["payment"] ?>"> <br>
 
 
-        <?php
+        <label for="">ประเภทการใช้งาน</label>
+        <input type="text" name="usage_type" value="<?= $order["usage_type"] ?>"> <br>
+
+
+        <label for="">ภาพผู้เข้าพัก</label>
+        <input type="text" name="image" value="<?= $order["image"] ?>"> <br>
+
+
+       <?php
+  
         include "action/connect.php";
-        //       ดึง   ทั้งหมด จาก ตาราง orders
         $sql = "SELECT * FROM rooms";
-        //                      db.  คำสั่ง
-        $result = mysqli_query($con, $sql);
-        // ทดสอบตัวแปร
-        // var_dump($result);
-        
+        $result = mysqli_query($con,$sql)
+       ?>
+       
+       <label for="">เลือกห้องพัก</label>
+       <select name="room_id" id="">
+
+       <?php
+
+       foreach ($result as $room){
         ?>
-        <label for="">เลือกห้องพัก</label>
-        <select name="room_id" id="">
-            <?php 
-            
-            foreach($result as $room){
-                ?>
-                <option value="<?= $room["room_id"]?>">
-                    <?=$order["room_id"] == $room['room_id'] ? 'selected' : ''?>
-                    <?= $room["room_id"]."_". $room["price"] . "บาท"?>
-            
-            </option>
-                <?php
-            }
-            
-            ?>
-        </select>
-    <input type="hidden" name="orders_id" value="<?= $order['orders_id']?>">
-        <br>
-        <button>บันทึก</button>
+        <option value="<?=$room["room_id"]?>"
+            <?= $order['room_id'] == $room['room_id'] ? 'selected' : '' ?>
+            >
+            <?=$room["room_id"] . "-" . $room["price"] . "บาท" ?>
+        </option>
+        <?php
+       }
+       ?>
+       </select>
+
+       <input type="hidden" name="order_id" value="<?= $order['orders_id'] ?>">
+
+       <br>
+       <button> บันทึก </button>
+
     </form>
-     <a href="index.php">กลับหน้าindex</a>
 </body>
 </html>
-<
